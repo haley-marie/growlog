@@ -6,8 +6,8 @@ CREATE TABLE grow_log (
 	care_event_id BIGINT REFERENCES events(id),
 	care_event_name TEXT REFERENCES events(task_name),
 	time_of_care TIMESTAMP,
-	created_at TIMESTAMP NOT NULL,
-	updated_at TIMESTAMP NOT NULL
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- +goose Down
