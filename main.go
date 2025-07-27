@@ -7,6 +7,7 @@ import (
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/joho/godotenv"
+	"github.com/jubilant-gremlin/growlog/internal/config"
 	"github.com/jubilant-gremlin/growlog/internal/database"
 	"github.com/rivo/tview"
 )
@@ -25,8 +26,10 @@ func main() {
 		log.Fatalf("Error loading .env file: %s\n", err)
 	}
 
-	dbURL := readEnv("DB_URL")
-	db, err := sql.Open("postgres", dbURL)
-	dbQueries := database.New(db)
+	cfg := config.Config{
+		DbURL: readEnv("DB_URL"),
+	}
 
+	db, err := sql.Open("postgres", cfg.DbURL)
+	dbQueries := database.New(db)
 }
