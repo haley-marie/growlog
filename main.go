@@ -1,24 +1,15 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"os"
 
-	"github.com/gdamore/tcell/v2"
+	//	"github.com/gdamore/tcell/v2"
 	"github.com/joho/godotenv"
+	"github.com/jubilant-gremlin/growlog/commands"
 	"github.com/jubilant-gremlin/growlog/internal/config"
-	"github.com/jubilant-gremlin/growlog/internal/database"
-	"github.com/rivo/tview"
+	// "github.com/rivo/tview"
 )
-
-func readEnv(key string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		log.Fatalf("%s environment variable not set.\n", key)
-	}
-	return value
-}
 
 func main() {
 	err := godotenv.Load(".env")
@@ -26,10 +17,23 @@ func main() {
 		log.Fatalf("Error loading .env file: %s\n", err)
 	}
 
-	cfg := config.Config{
-		DbURL: readEnv("DB_URL"),
+	cfg := config.ReadCfg()
+
+	cmd_map := commands.Commands{
+		Cmds: make(map[string]func(*config.Config, commands.Command) error),
 	}
 
-	db, err := sql.Open("postgres", cfg.DbURL)
-	dbQueries := database.New(db)
+	cmd_map.Register("addPlant", commands.HandlerAddPlant)
+
+	args := os.Args
+	new_cmd := commands.Command{
+		Name:      args[1],
+		Arguments: args[2:],
+	}
+
+	err = cmd_map.Run(&cfg, new_cmd)
+	if err != nil {
+		log.Fatalf("Error running command: %s\n", err)
+	}
+
 }
