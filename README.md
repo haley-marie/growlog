@@ -11,7 +11,7 @@ Assuming that Git and Go are installed; cloning, running, building, and installi
     `$ git clone https://github.com/haley-marie/growlog.git
      $ cd growlog
      $ go build
-     $ go install`  
+     $ go install`
 
 Grow Log expects that you have a `postgres` instance running on the provided port with a `growlog` database created. If issues are encountered while installing Grow Log, please ensure all dependencies are satisfied and that the `growlog` database exists.  
 Additionally, you will need to create a .env file in the root directory that specifies a DB_URL value. The format is as follows:  
