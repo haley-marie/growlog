@@ -11,7 +11,7 @@ import (
 func HandlerListAllEvents(cfg *config.Config, cmd Command) error {
 	events, err := cfg.DbQueries.ListCareEvents(context.Background())
 	if err != nil {
-		return internal.ReturnFormattedError("Error getting plants from database", err)
+		return internal.ReturnFormattedError("Error getting events from database", err)
 	}
 
 	fmt.Println("Event ID, Event Name")
