@@ -23,7 +23,7 @@ func main() {
 		Cmds: make(map[string]func(*config.Config, commands.Command) error),
 	}
 
-	cmd_map.Register("addPlant", commands.HandlerAddPlant)
+	registerHandlers(&cmd_map)
 
 	args := os.Args
 	new_cmd := commands.Command{
@@ -36,4 +36,9 @@ func main() {
 		log.Fatalf("Error running command: %s\n", err)
 	}
 
+}
+
+func registerHandlers(cmd_map *commands.Commands) {
+	cmd_map.Register("addPlant", commands.HandlerAddPlant)
+	cmd_map.Register("resetPlants", commands.HandlerResetPlants)
 }
