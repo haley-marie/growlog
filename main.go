@@ -43,4 +43,5 @@ func registerHandlers(cmd_map *commands.Commands) {
 	cmd_map.Register("resetPlants", commands.HandlerResetPlants)
 	cmd_map.Register("removePlant", commands.HandlerRemovePlant)
 	cmd_map.Register("addEvent", commands.HandlerAddCustomCareEvent)
+	cmd_map.Register("addLog", commands.HandlerAddLog)
 }
