@@ -6,7 +6,9 @@ import (
 	"os"
 
 	"github.com/jubilant-gremlin/growlog/internal/database"
+	migrate "github.com/jubilant-gremlin/growlog/internal/sql"
 	_ "github.com/lib/pq"
+	"github.com/pressly/goose/v3"
 )
 
 type Config struct {
@@ -33,6 +35,16 @@ func ReadCfg() Config {
 
 	cfg := Config{
 		DbQueries: dbQueries,
+	}
+
+	goose.SetBaseFS(migrate.EmbedMigrations)
+
+	if err := goose.SetDialect("postgres"); err != nil {
+		log.Fatalf("Error setting goose dialect", err)
+	}
+
+	if err := goose.Up(db, "schema"); err != nil {
+		log.Fatalf("Error running goose migrations", err)
 	}
 
 	return cfg
