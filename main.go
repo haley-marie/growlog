@@ -41,4 +41,5 @@ func main() {
 func registerHandlers(cmd_map *commands.Commands) {
 	cmd_map.Register("addPlant", commands.HandlerAddPlant)
 	cmd_map.Register("resetPlants", commands.HandlerResetPlants)
+	cmd_map.Register("removePlant", commands.HandlerRemovePlant)
 }
