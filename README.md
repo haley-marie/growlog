@@ -26,5 +26,6 @@ Once grow log is installed on your machine, you can run the application with `gr
 - `removePlant <plantID>`: remove the specified plant from grow log.  
 - `addEvent <eventName>`: creates the specified custom care event in grow log. Note that grow log comes with 5 preexisting care events, see listEvents for details on how to view care events.  
 - `addLog <plantID> <eventID> [timeOfCare]`: creates the specified care log entry in grow log.  
-- `listPlants`: lists all plants stored in grow log.  
+- `listplants`: lists all plants stored in grow log.  
 - `listEvents`: lists all events stored in grow log. Grow log comes with 5 preexisiting care events, please use this command to get their IDs if needed.  
+- `listLogs`: lists all events stored in grow log.  
