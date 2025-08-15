@@ -32,4 +32,4 @@ Once grow log is installed on your machine, you can run the application with `gr
 - `listEvents`: lists all events stored in grow log. Grow log comes with 5 preexisiting care events, please use this command to get their IDs if needed.  
 - `listLogs`: lists all events stored in grow log.  
 - `listPlantsByType <plantType>`: lists all plants matching the specified type stored in grow log.  
-- `listLogsByPlant <plantID>`: lists all logged care events for plant matching the specified id.  
+- `listLogsForPlant <plantID>`: lists all logged care events for plant matching the specified id.  
