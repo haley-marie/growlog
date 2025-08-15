@@ -16,7 +16,7 @@ Assuming that Git and Go are installed; cloning, running, building, and installi
 ```
 
 Grow Log expects that you have a `postgres` instance running on the provided port with a `growlog` database created. If issues are encountered while installing Grow Log, please ensure all dependencies are satisfied and that the `growlog` database exists.  
-Additionally, you will need to create a .env file in the root directory that specifies a DB_URL value. The format is as follows:  
+Additionally, you will need to create a .env file in the project's root directory that specifies a DB_URL value. The format is as follows:  
     `DB_URL="postgres://username:password@localhost:port/growlog?sslmode=disable"`  
 
 Where username and password are the values you assigned when setting up PostgreSQL. For more information on setting up PostgreSQL, visit: [Microsoft](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database#install-postgresql)  
@@ -31,3 +31,4 @@ Once grow log is installed on your machine, you can run the application with `gr
 - `listplants`: lists all plants stored in grow log.  
 - `listEvents`: lists all events stored in grow log. Grow log comes with 5 preexisiting care events, please use this command to get their IDs if needed.  
 - `listLogs`: lists all events stored in grow log.  
+- `listPlantsByType <plantType>`: lists all plants matching the specified type stored in grow log.  
