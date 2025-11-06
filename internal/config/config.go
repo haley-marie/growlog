@@ -40,11 +40,11 @@ func ReadCfg() Config {
 	goose.SetBaseFS(migrate.EmbedMigrations)
 
 	if err := goose.SetDialect("postgres"); err != nil {
-		log.Fatalf("Error setting goose dialect", err)
+		log.Fatalf("Error setting goose dialect: %v", err)
 	}
 
 	if err := goose.Up(db, "schema"); err != nil {
-		log.Fatalf("Error running goose migrations", err)
+		log.Fatalf("Error running goose migrations: %v", err)
 	}
 
 	return cfg

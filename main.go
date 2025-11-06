@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Error loading .env file: %s\n", err)
 	}
 
-	// cfg := config.ReadCfg()
+	cfg := config.ReadCfg()
 
 	cmd_map := commands.Commands{
 		Cmds: make(map[string]func(*config.Config, commands.Command) error),
@@ -26,7 +26,7 @@ func main() {
 
 	registerHandlers(&cmd_map)
 
-	p := tea.NewProgram(tui.InitialModel)
+	p := tea.NewProgram(tui.NewModel(&cfg))
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Sorry, an error occured: %v", err)
 		os.Exit(1)
