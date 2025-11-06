@@ -1,14 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
-	//	"github.com/gdamore/tcell/v2"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/joho/godotenv"
 	"github.com/jubilant-gremlin/growlog/commands"
 	"github.com/jubilant-gremlin/growlog/internal/config"
-	// "github.com/rivo/tview"
+	"github.com/jubilant-gremlin/growlog/internal/tui"
 )
 
 func main() {
@@ -25,17 +26,11 @@ func main() {
 
 	registerHandlers(&cmd_map)
 
-	args := os.Args
-	new_cmd := commands.Command{
-		Name:      args[1],
-		Arguments: args[2:],
+	p := tea.NewProgram(tui.NewModel(&cfg))
+	if _, err := p.Run(); err != nil {
+		fmt.Printf("Sorry, an error occured: %v", err)
+		os.Exit(1)
 	}
-
-	err = cmd_map.Run(&cfg, new_cmd)
-	if err != nil {
-		log.Fatalf("Error running command: %s\n", err)
-	}
-
 }
 
 func registerHandlers(cmd_map *commands.Commands) {
