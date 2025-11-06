@@ -1,4 +1,4 @@
-# GROW LOG
+# GROW LOG (WIP)
 Grow Log is a plant care tracker for the command line written in Go and PostgreSQL.  
 
 ## DEPENDENCIES
