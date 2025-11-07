@@ -56,12 +56,6 @@ var quickAddMenu = []menuItem{
 		command:      "addPlant",
 	},
 	{
-		title:        "Add Event",
-		hasChildMenu: false,
-		hasCommand:   true,
-		command:      "addEvent",
-	},
-	{
 		title:        "Add Log",
 		hasChildMenu: false,
 		hasCommand:   true,
@@ -69,9 +63,67 @@ var quickAddMenu = []menuItem{
 	},
 }
 
-var quickViewMenu []menuItem
-var logsMenu []menuItem
-var settingsMenu []menuItem
+var quickViewMenu = []menuItem{
+	{
+		title:        "View Plant",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "listLogsForPlant",
+	},
+	{
+		title:        "View All Plants",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "list Plants",
+	},
+	{
+		title:        "View Events",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "listEvents",
+	},
+}
+var logsMenu = []menuItem{
+	{
+		title:        "View All Logs",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "listLogs",
+	},
+	{
+		title:        "View Plant",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "listPlants",
+	},
+	{
+		title:        "View Logs By Type",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "listPlantsByType",
+	},
+}
+var settingsMenu = []menuItem{
+	{
+		title:        "Add Event",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "addEvent",
+	},
+	{
+		title:        "Remove Plant",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "removePlant",
+	},
+	{
+		title:        "Reset Plants",
+		hasChildMenu: false,
+		hasCommand:   true,
+		command:      "resetPlants",
+	},
+	// TODO: add remove event and reset events
+}
 
 func NewModel(cfg *config.Config) model {
 	return model{choices: mainMenu, cfg: cfg}
