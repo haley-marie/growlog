@@ -12,16 +12,19 @@ type menuItem struct {
 	hasChildMenu bool
 	hasCommand   bool
 	childMenu    []menuItem
-	command      string
+	cmd          string
 }
 
 type model struct {
-	choices []menuItem
-	cursor  int
-	cfg     *config.Config
+	choices  []menuItem
+	cursor   int
+	selected int
+	cfg      *config.Config
+	cmd      string
+	isMenu   bool
 }
 
-var mainMenu = []menuItem{
+var MainMenu = []menuItem{
 	{
 		title:        "Quick Add",
 		hasChildMenu: true,
@@ -53,13 +56,13 @@ var quickAddMenu = []menuItem{
 		title:        "Add Plant",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "addPlant",
+		cmd:          "addPlant",
 	},
 	{
 		title:        "Add Log",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "addLog",
+		cmd:          "addLog",
 	},
 }
 
@@ -68,19 +71,19 @@ var quickViewMenu = []menuItem{
 		title:        "View Plant",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "listLogsForPlant",
+		cmd:          "listLogsForPlant",
 	},
 	{
 		title:        "View All Plants",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "list Plants",
+		cmd:          "listPlants",
 	},
 	{
 		title:        "View Events",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "listEvents",
+		cmd:          "listEvents",
 	},
 }
 var logsMenu = []menuItem{
@@ -88,19 +91,19 @@ var logsMenu = []menuItem{
 		title:        "View All Logs",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "listLogs",
+		cmd:          "listLogs",
 	},
 	{
 		title:        "View Plant",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "listPlants",
+		cmd:          "listPlants",
 	},
 	{
 		title:        "View Logs By Type",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "listPlantsByType",
+		cmd:          "listPlantsByType",
 	},
 }
 var settingsMenu = []menuItem{
@@ -108,25 +111,38 @@ var settingsMenu = []menuItem{
 		title:        "Add Event",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "addEvent",
+		cmd:          "addEvent",
 	},
 	{
 		title:        "Remove Plant",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "removePlant",
+		cmd:          "removePlant",
 	},
 	{
 		title:        "Reset Plants",
 		hasChildMenu: false,
 		hasCommand:   true,
-		command:      "resetPlants",
+		cmd:          "resetPlants",
 	},
 	// TODO: add remove event and reset events
 }
 
-func NewModel(cfg *config.Config) model {
-	return model{choices: mainMenu, cfg: cfg}
+func NewModel(menu []menuItem, cfg *config.Config) model {
+	return model{choices: menu, cfg: cfg, isMenu: true}
+}
+
+func (m model) getChildMenuOrCommand(selected int) model {
+	selectedOption := m.choices[selected]
+	if selectedOption.hasChildMenu {
+		m.isMenu = true
+		m.choices = selectedOption.childMenu
+	} else if selectedOption.hasCommand {
+		m.isMenu = false
+		m.cmd = selectedOption.cmd
+	}
+
+	return m
 }
 
 func (m model) Init() tea.Cmd {
@@ -147,8 +163,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.cursor < len(m.choices)-1 {
 				m.cursor++
 			}
+		case "enter", " ":
+			m.selected = m.cursor
+			m = m.getChildMenuOrCommand(m.selected)
+		case "b", "esc":
+			m.choices = MainMenu
 		}
 	}
+
 	return m, nil
 }
 
@@ -157,17 +179,23 @@ func (m model) View() string {
 	s := "Welcome to Grow Log! What would you like to do?\n\n"
 
 	// body
-	for i, choice := range m.choices {
-		cursor := " "
-		if m.cursor == i {
-			cursor = ">"
-		}
+	if m.isMenu {
+		for i, choice := range m.choices {
+			cursor := " "
+			if m.cursor == i {
+				cursor = ">"
+			}
 
-		s += fmt.Sprintf("%s %s\n", cursor, choice.title)
+			s += fmt.Sprintf("%s %s\n", cursor, choice.title)
+		}
 	}
 
+	if !m.isMenu {
+
+	}
 	// footer
 	s += "\nPress q to quit"
+	s += "\nPress b to go back"
 
 	return s
 }

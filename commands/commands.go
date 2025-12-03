@@ -1,13 +1,14 @@
 package commands
 
 import (
+	"github.com/charmbracelet/bubbles/textinput"
 	"github.com/jubilant-gremlin/growlog/internal"
 	"github.com/jubilant-gremlin/growlog/internal/config"
 )
 
 type Command struct {
 	Name      string
-	Arguments []string
+	Arguments []textinput.Model
 }
 
 type Commands struct {

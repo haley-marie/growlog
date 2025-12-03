@@ -20,13 +20,13 @@ func main() {
 
 	cfg := config.ReadCfg()
 
-	cmd_map := commands.Commands{
+	Cmd_map := commands.Commands{
 		Cmds: make(map[string]func(*config.Config, commands.Command) error),
 	}
 
-	registerHandlers(&cmd_map)
+	registerHandlers(&Cmd_map)
 
-	p := tea.NewProgram(tui.NewModel(&cfg))
+	p := tea.NewProgram(tui.NewModel(tui.MainMenu, &cfg))
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Sorry, an error occured: %v", err)
 		os.Exit(1)
